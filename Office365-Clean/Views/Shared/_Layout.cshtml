@@ -1,0 +1,180 @@
+﻿@using System.Web.Optimization
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="format-detection" content="telephone=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+
+	<title>Mötesrum 1</title>
+
+	<link rel="stylesheet" href="~/Content/style.css" type="text/css" media="screen" charset="utf-8">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
+
+	<script type="text/javascript">
+		var razorUrlCreateMeetings = '@Url.Action("createMeetings", "Booking")';
+		var razorUrlGetEvents = '@Url.Action("getEvents", "Booking")';
+		var razorUrlGetUsers = '@Url.Action("getUsers", "Booking")';
+		var razorUrlDeleteMeeting = '@Url.Action("DeleteMeeting", "Booking")';
+
+		var IsAuthenticated = false;
+		@if ( Request.IsAuthenticated ) {
+			<text>IsAuthenticated = true;</text>
+		}
+		
+	</script>
+
+	<script src="~/Scripts/jquery.ui.touch-punch.min.js"></script>
+	<script src="~/Scripts/functions.js" charset="utf-8"></script>
+
+	<script src="~/Scripts/dohi.js" charset="utf-8"></script>
+
+
+</head>
+<body>
+	@Html.Partial("_LoginPartial")
+	@RenderBody()
+
+	<div id="coverLeft" class="coverElement cover1"></div>
+	<div id="coverRight" class="coverElement cover1"></div>
+
+	<div id="dragInstructions" class="coverElement cover2">
+		Dra och släpp önskad tid. Justera längd genom att dra i knappen i botten av fältet.
+		<button class="cancel">Ångra</button>
+		<button id="confirm">Klar</button>
+	</div>
+
+	<div id="selectUser" class="coverElement cover1">
+		<div class="inner">
+			<h1>Välj användare</h1>
+            <div class="filter">
+                Filtrera på initialer
+                <input type="text" />
+            </div>
+			<div class="cf">
+				<form class="users"></form>
+			</div>
+			<p class="usersButtons">
+				<button class="cancel">Avbryt</button>
+				<button class="userSelected disabled">Nästa</button>
+			</p>
+		</div>
+	</div>
+
+	<div id="left">
+
+		<div id="clock-container">
+
+			<div id="date">
+				<div>
+					<span class="weekDay"></span> <span class="monthDay"></span> <span class="month"></span>
+					<span class="hours"></span>:<span class="minutes"></span>
+				</div>
+			</div>
+
+			<!--
+				Texten i rubrikerna byts ut direkt men behövs där för att mäta höjd
+			-->
+			<h1>Ledigt</h1>
+			<h2>min till</h2>
+			<canvas id="clock" />
+		</div>
+
+	</div>
+
+	<div id="right">
+
+		<div class="spinner-wrapper">
+			<div class="spinner">
+				<div class="spinner-container container1">
+					<div class="circle1"></div>
+					<div class="circle2"></div>
+					<div class="circle3"></div>
+					<div class="circle4"></div>
+				</div>
+				<div class="spinner-container container2">
+					<div class="circle1"></div>
+					<div class="circle2"></div>
+					<div class="circle3"></div>
+					<div class="circle4"></div>
+				</div>
+				<div class="spinner-container container3">
+					<div class="circle1"></div>
+					<div class="circle2"></div>
+					<div class="circle3"></div>
+					<div class="circle4"></div>
+				</div>
+			</div>
+		</div>
+
+		<div id="book">
+			<button>Boka</button>
+		</div>
+		<div id="cal-day">
+
+			<div id="overlay"></div>
+
+
+			<div class="cal-book">
+				<h2></h2>
+				<div class="busyTime">Upptagen tid</div>
+				<div class="handle ui-resizable-handle ui-resizable-s"><div id="resizeHandle"></div></div>
+				<div class="bookedTime"><span class="start"></span> – <span class="end"></span></div>
+				<div class="bookedLength"><span class="hours"></span><span class="minutes"></span></div>
+			</div>
+
+			<ul id="booked-items"></ul>
+
+			<ul id="background">
+				<li>
+					<div class="timeMarker"><span class="hours">07</span>:<span class="minutes">00</span></div>
+					<div class="halfHour"></div>
+				</li>
+				<li>
+					<div class="timeMarker"><span class="hours">08</span>:<span class="minutes">00</span></div>
+					<div class="halfHour"></div>
+				</li>
+				<li>
+					<div class="timeMarker"><span class="hours">09</span>:<span class="minutes">00</span></div>
+					<div class="halfHour"></div>
+				</li>
+				<li>
+					<div class="timeMarker"><span class="hours">10</span>:<span class="minutes">00</span></div>
+					<div class="halfHour"></div>
+				</li>
+				<li>
+					<div class="timeMarker"><span class="hours">11</span>:<span class="minutes">00</span></div>
+					<div class="halfHour"></div>
+				</li>
+				<li>
+					<div class="timeMarker"><span class="hours">12</span>:<span class="minutes">00</span></div>
+					<div class="halfHour"></div>
+				</li>
+				<li>
+					<div class="timeMarker"><span class="hours">13</span>:<span class="minutes">00</span></div>
+					<div class="halfHour"></div>
+				</li>
+				<li>
+					<div class="timeMarker"><span class="hours">14</span>:<span class="minutes">00</span></div>
+					<div class="halfHour"></div>
+				</li>
+				<li>
+					<div class="timeMarker"><span class="hours">15</span>:<span class="minutes">00</span></div>
+					<div class="halfHour"></div>
+				</li>
+				<li>
+					<div class="timeMarker"><span class="hours">16</span>:<span class="minutes">00</span></div>
+					<div class="halfHour"></div>
+				</li>
+				<li>
+					<div class="timeMarker"><span class="hours">17</span>:<span class="minutes">00</span></div>
+					<div class="halfHour"></div>
+				</li>
+			</ul>
+
+		</div>
+	</div>
+
+</body>
+</html>

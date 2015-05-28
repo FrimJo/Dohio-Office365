@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Office365_Clean.Models.ContactItem>
+
+@{
+    ViewBag.Title = "SelectUser";
+}
+
+<h2>SelectUser</h2>
+
+<table class="table">
+        <tr>
+            <td>
+                Given name
+            </td>
+            <td>
+                Surname
+            </td>
+            <td>
+                Mobile phonenumber
+            </td>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelitem => item.GivenName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelitem => item.Surname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelitem => item.MobilePhone)
+                </td>
+            </tr>
+        }
+    </table>
+
+     @using (Html.BeginForm())
+{
+        @Html.DropDownListFor(model => model.ID, Model.GivenName)
+        @Html.ValidationMessageFor(model => model.ID)
+        <input type="submit" value="Submit" /> 
+}
+
+
+
+    
